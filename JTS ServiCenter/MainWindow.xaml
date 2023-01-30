@@ -14,25 +14,22 @@
         </Grid.ColumnDefinitions>
         <TextBox x:Name="fName_txt" HorizontalAlignment="Left" Height="52" Margin="28,76,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="271" Grid.Column="2" FontSize="18" />
         <TextBox x:Name="lName_txt" HorizontalAlignment="Left" Height="52" Margin="323,76,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="364" Grid.Column="2" FontSize="18"/>
-        <Label Content="ID Cliente" HorizontalAlignment="Left" Margin="719,19,0,0" VerticalAlignment="Top" Grid.Column="2" Height="48" Width="134" FontSize="24"/>
         <TextBox x:Name="serv_txt" HorizontalAlignment="Left" Height="50" Margin="34,204,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="157" Grid.Column="2" FontSize="18"/>
-        <TextBox x:Name="servDate_txt" HorizontalAlignment="Left" Height="50" Margin="222,204,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="158" Grid.Column="2" FontSize="18"/>
-        <TextBox x:Name="servPrice_txt" HorizontalAlignment="Left" Height="50" Margin="464,204,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="158" Grid.Column="2" FontSize="18"/>
-        <TextBox x:Name="servDesc_txt" HorizontalAlignment="Left" Height="177" Margin="36,298,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="511" Grid.Column="2" FontSize="18"/>
+        <TextBox x:Name="servPrice_txt" HorizontalAlignment="Left" Height="50" Margin="218,204,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="201" Grid.Column="2" FontSize="18"/>
+        <TextBox x:Name="servDesc_txt" HorizontalAlignment="Left" Height="221" Margin="36,298,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="511" Grid.Column="2" FontSize="18"/>
         <Label Content="Nombre" HorizontalAlignment="Left" Margin="28,19,0,0" VerticalAlignment="Top" Height="48" Width="118" FontSize="24" Grid.Column="2"/>
         <Label Content="Apellidos" HorizontalAlignment="Left" Margin="323,19,0,0" VerticalAlignment="Top" Grid.Column="2" Height="48" Width="116" FontSize="24"/>
         <Label Content="Servicio" HorizontalAlignment="Left" Margin="34,148,0,0" VerticalAlignment="Top" Height="48" Width="118" Grid.Column="2" FontSize="24"/>
-        <Label Content="Fecha de Servicio" HorizontalAlignment="Left" Margin="222,148,0,0" VerticalAlignment="Top" Grid.Column="2" Height="48" Width="196" FontSize="24"/>
-        <Label Content="Precio de Servicio" HorizontalAlignment="Left" Margin="464,148,0,0" VerticalAlignment="Top" Grid.Column="2" Height="48" Width="202" FontSize="24"/>
+        <Label Content="Precio de Servicio" HorizontalAlignment="Left" Margin="218,148,0,0" VerticalAlignment="Top" Grid.Column="2" Height="48" Width="201" FontSize="24"/>
         <Label Content="Descripcion de Servicio" HorizontalAlignment="Left" Margin="36,259,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.314,0.579" Height="48" Width="271" Grid.Column="2" FontSize="24"/>
-        <Button x:Name="createBtn" Content="Create Record" HorizontalAlignment="Left" Height="93" Margin="46,555,0,0" VerticalAlignment="Top" Width="234" Grid.Column="2" FontSize="24"/>
-        <Button x:Name="readBtn" Content="Read Record" HorizontalAlignment="Left" Height="93" Margin="317,555,0,0" VerticalAlignment="Top" Width="233" Grid.Column="2" FontSize="24"/>
-        <Button x:Name="updateBtn" Content="Update Record" HorizontalAlignment="Left" Height="93" Margin="585,555,0,0" VerticalAlignment="Top" Width="234" Grid.Column="2" FontSize="24"/>
-        <Button x:Name="deleteBtn" Content="Delete Record" HorizontalAlignment="Left" Height="93" Margin="858,555,0,0" VerticalAlignment="Top" Width="232" Grid.Column="2" FontSize="24"/>
-        <TextBox x:Name="customerID" HorizontalAlignment="Left" Margin="719,76,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="68" Height="52" Grid.Column="2" FontSize="18"/>
-        
-        <DataGrid x:Name="datagrid" Grid.ColumnSpan="3" HorizontalAlignment="Left" Height="315" Margin="698,204,0,0" VerticalAlignment="Top" Width="552" d:ItemsSource="{d:SampleData ItemCount=5}"/>
-        <Button x:Name="clearBtn" Content="C" HorizontalAlignment="Left" Height="93" Margin="1118,555,0,0" VerticalAlignment="Top" Width="132" Grid.Column="2" FontSize="24" Click="clearBtn_Click"/>
+        <Button x:Name="createBtn" Content="Create Record" HorizontalAlignment="Left" Height="93" Margin="46,555,0,0" VerticalAlignment="Top" Width="234" Grid.Column="2" FontSize="24" Click="createBtn_Click"/>
+        <Button x:Name="updateBtn" Content="Update Record" HorizontalAlignment="Left" Height="93" Margin="323,555,0,0" VerticalAlignment="Top" Width="234" Grid.Column="2" FontSize="24" Click="updateBtn_Click"/>
+        <Button x:Name="deleteBtn" Content="Delete Record" HorizontalAlignment="Left" Height="93" Margin="586,555,0,0" VerticalAlignment="Top" Width="234" Grid.Column="2" FontSize="24" Click="deleteBtn_Click"/>
+
+        <DataGrid x:Name="datagrid" Grid.ColumnSpan="3" HorizontalAlignment="Left" Height="476" Margin="698,43,0,0" VerticalAlignment="Top" Width="552" d:ItemsSource="{d:SampleData ItemCount=5}" SelectionChanged="datagrid_SelectionChanged"/>
+        <Button x:Name="clearBtn" Content="Clear Data" HorizontalAlignment="Left" Height="93" Margin="842,555,0,0" VerticalAlignment="Top" Width="234" Grid.Column="2" FontSize="24" Click="clearBtn_Click"/>
+        <Label Content="ID" HorizontalAlignment="Left" Margin="454,148,0,0" VerticalAlignment="Top" Height="48" Width="52" FontSize="24" Grid.Column="2"/>
+        <TextBox x:Name="customerFinder_txt" HorizontalAlignment="Left" Height="50" Margin="454,204,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="126" Grid.Column="2" FontSize="18"/>
 
     </Grid>
 </Window>
