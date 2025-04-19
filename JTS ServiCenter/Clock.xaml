@@ -1,0 +1,16 @@
+xaml
+<Window x:Class="JTS_ServiCenter.Clock"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Clock In/Out" Height="200" Width="300">
+    <Grid>
+        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+            <TextBlock x:Name="StatusTextBlock" Text="Clocked Out" FontSize="16" Margin="10"/>
+            <TextBlock x:Name="TimeWorkedTextBlock" Text="Total Time Worked: 00:00:00" FontSize="16" Margin="10"/>
+            <StackPanel Orientation="Horizontal" Margin="10">
+                <Button Content="Clock In" Click="ClockInButton_Click" Width="100" Height="30" Margin="5"/>
+                <Button Content="Clock Out" Click="ClockOutButton_Click" Width="100" Height="30" Margin="5"/>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</Window>
