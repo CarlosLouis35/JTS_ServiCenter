@@ -1,7 +1,7 @@
-csharp
 using System;
-using Microsoft.EntityFrameworkCore;
 using System.Linq;
+using JTS_ServiCenter.Data; // Added namespace
+using JTS_ServiCenter.Models; // Added namespace
 
 namespace JTS_ServiCenter
 {
@@ -9,31 +9,27 @@ namespace JTS_ServiCenter
     {
         public bool IsClockedIn { get; private set; }
         public DateTime? ClockInTime { get; private set; }
+        // Removed redundant ClockOutTime property
 
         private readonly AppDbContext _context;
         public int UserId { get; set; }
+
         public Clocker(AppDbContext context)
         {
             _context = context;
+            // Check initial state from DB (optional but good practice)
+            var lastEvent = _context.ClockEvents
+                .Where(e => e.UserId == this.UserId)
+                .OrderByDescending(e => e.ClockInTime)
+                .FirstOrDefault();
+            if (lastEvent != null && lastEvent.ClockOutTime == null)
+            {
+                IsClockedIn = true;
+                ClockInTime = lastEvent.ClockInTime;
+            }
         }
 
-        public class ClockEvent
-        {
-            public int Id { get; set; }
-            public int UserId { get; set; }
-            public DateTime ClockInTime { get; set; }
-            public DateTime? ClockOutTime { get; set; }
-        }
-
-        public class AppDbContext : DbContext
-        {
-            public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
-
-            public DbSet<ClockEvent> ClockEvents { get; set; }
-        }
-
-
-        public DateTime? ClockOutTime { get; private set; }
+        // Removed inner class definitions for ClockEvent and AppDbContext
 
         public void ClockIn()
         {
@@ -44,13 +40,13 @@ namespace JTS_ServiCenter
 
             IsClockedIn = true;
             ClockInTime = DateTime.Now;
-            ClockOutTime = null;
-            
+            // ClockOutTime property is not needed here
+
             var clockEvent = new ClockEvent
             {
                 UserId = this.UserId,
-                ClockInTime = DateTime.Now,
-                
+                ClockInTime = DateTime.Now, // Use the same timestamp
+                ClockOutTime = null // Explicitly null
             };
             _context.ClockEvents.Add(clockEvent);
             _context.SaveChanges();
@@ -63,29 +59,40 @@ namespace JTS_ServiCenter
                 throw new InvalidOperationException("Not clocked in.");
             }
 
-            IsClockedIn = false;
-            ClockOutTime = DateTime.Now;
+            var clockOutTimestamp = DateTime.Now;
+            // Find the last open clock-in event for this user
+            var lastClockInEvent = _context.ClockEvents
+                                        .Where(e => e.UserId == this.UserId && e.ClockOutTime == null)
+                                        .OrderByDescending(e => e.ClockInTime)
+                                        .FirstOrDefault();
 
-
-            var lastClockInEvent = _context.ClockEvents.Where(e => e.UserId == this.UserId && e.ClockOutTime == null).OrderByDescending(e => e.ClockInTime).FirstOrDefault();
             if (lastClockInEvent != null)
             {
-                lastClockInEvent.ClockOutTime = DateTime.Now;
+                lastClockInEvent.ClockOutTime = clockOutTimestamp;
                 _context.SaveChanges();
+                IsClockedIn = false;
+                ClockInTime = null; // Reset ClockInTime as well
+            }
+            else
+            {
+                // Handle case where no open clock-in event is found (data inconsistency?)
+                throw new InvalidOperationException("Cannot clock out: No open clock-in record found.");
             }
         }
 
         public TimeSpan? CalculateTotalTimeWorked(int userId)
         {
-            var totalTime = _context.ClockEvents.Where(e => e.UserId == userId && e.ClockOutTime != null).Sum(e => (e.ClockOutTime - e.ClockInTime).Value.TotalSeconds);
-            if(totalTime == 0)
+            // Ensure consistent timezone handling if applicable
+            var totalSeconds = _context.ClockEvents
+                .Where(e => e.UserId == userId && e.ClockOutTime.HasValue)
+                .ToList() // Fetch data before calculation
+                .Sum(e => (e.ClockOutTime.Value - e.ClockInTime).TotalSeconds);
+
+            if (totalSeconds == 0)
             {
                 return null;
             }
-            TimeSpan totalTimeWorked = TimeSpan.FromSeconds(totalTime);
-            return totalTimeWorked;
+            return TimeSpan.FromSeconds(totalSeconds);
         }
     }
-
-    
 }
